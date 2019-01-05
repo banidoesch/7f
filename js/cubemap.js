@@ -185,9 +185,9 @@ cubmap1 = function(){
 			var loader = new THREE.CubeTextureLoader();
 				loader.setPath( './pics/faces_a/' );
 				var textureCube = loader.load( [
-				'face-b.png', 'face-f.png',
-				'face-d.png', 'face-t.png',
-				'face-l.png', 'face-r.png'
+				'nx.png', 'px.png',
+				'ny.png', 'py.png',
+				'nz.png', 'pz.png'
 ] );
 
 var materialx = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: textureCube, side: THREE.DoubleSide } );
