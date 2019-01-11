@@ -15,7 +15,20 @@ alpha = function (){
     camera.position.y = 10;
     camera.position.z = 10;
     camera.lookAt(scene.position);
-    ccontrols = new THREE.OrbitControls( camera );
+    // ccontrols = new THREE.OrbitControls( camera );
+    
+  fpControls = new THREE.FirstPersonControls(camera);
+  fpControls.lookSpeed = 0.4;
+  fpControls.movementSpeed = 20;
+  fpControls.lookVertical = true;
+  fpControls.constrainVertical = true;
+  fpControls.verticalMin = 1.0;
+  fpControls.verticalMax = 2.0;
+  fpControls.lon = -150;
+  fpControls.lat = 120;
+    
+    
+    
     // create a render and set the size
     renderer = new THREE.WebGLRenderer();
 
@@ -28,14 +41,14 @@ alpha = function (){
     
         // add spotlight for the shadows
     spotLight = new THREE.SpotLight(0x8888dd, 1.2, 50, 10);
-    spotLight.position.set(0, 0, 0);
+    spotLight.position.set(0, 1, 0);
     spotLight.castShadow = false;
     scene.add(spotLight);
     var spotLightHelper = new THREE.SpotLightHelper( spotLight );
 	scene.add( spotLightHelper )
     
         // add subtle ambient lighting
-    var ambientLight = new THREE.AmbientLight(0x3c3c3c);
+    var ambientLight = new THREE.AmbientLight(0xcccccc);
     scene.add(ambientLight);
     
        controls = new function () {
@@ -169,7 +182,7 @@ cub = function(){
 			//cubi2
 			
 			cubgeo = new THREE.BoxGeometry(3,1,3);
-			cubmat = new THREE.MeshPhongMaterial(0xffffff);
+			cubmat = new THREE.MeshPhongMaterial(0xff0000);
 			cubi2 = new THREE.Mesh(cubgeo, cubmat);
 			scene.add(cubi2);
 			//cubi2.position.set = scene.spotLight.position.set
@@ -184,19 +197,33 @@ cubmap1 = function(){
 			
 			
 			var loader = new THREE.CubeTextureLoader();
-				loader.setPath( './pics/faces_a/' );
+			
+				loader.setPath( './pics/ww1/' );
+				
 				var textureCube = loader.load( [
-				'nx.png', 'px.png',
-				'ny.png', 'py.png',
-				'nz.png', 'pz.png'
-] );
+				'px.png', 'nx.png',
+				'py.png', 'ny.png',
+				'pz.png', 'nz.png'
+]);
 
-var materialx = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: textureCube, side: THREE.DoubleSide } );
+var textureCube2 = loader.load ([
+ "right.png", "left.png",
+ "top.png", "bottom.png",
+"back.png", "front.png"
+]);
+
+//loader.onload(console.log("loader hat geladen"));
+
+var materialx = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: textureCube2, side: THREE.DoubleSide } );
 				
 				
 			cubmap1geo = new THREE.BoxGeometry(100,100,100);
 			cubemap1 = new THREE.Mesh(cubmap1geo, materialx);
-			cubemap1.size *= 1.1
+			//cubemap1.size *= 1.1
+			cubemap1.transparent = true;
+cubemap1.side = THREE.DoubleSide;
+cubemap1.depthWrite = false;
+// cubemap1.color = new THREE.Color(
 			scene.add(cubemap1);
 			/*
 			urls = [
@@ -243,9 +270,9 @@ cubmap1();
         spotLight.position.y = controls.spotLight
         cubi.position.y = controls.spotLight 
         //console.log(cubi.position.y)
-        ccontrols.update();
+        //ccontrols.update();
 
-
+fpControls.update(clock.getDelta());
  
         requestAnimationFrame(render);
         //setTimeout(100)
