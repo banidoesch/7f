@@ -1,7 +1,8 @@
 function init() {
+	
 alpha = function (){
-    //stats = initStats();
-   // stats.name = "d ungu"
+  // stats = initStats();
+   //stats.name = "d ungu"
 
     // create a scene, that will hold all our elements such as objects, cameras and lights.
     scene = new THREE.Scene();
